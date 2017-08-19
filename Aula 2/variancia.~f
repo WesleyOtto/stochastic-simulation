@@ -1,0 +1,38 @@
+C       Variƒncia: var[x] = ((somatoria) (x-m)^2) / dble(n)
+
+       real*8 m,soma,val,var,aux,aux2
+       integer n
+
+       soma = 0.d0
+
+       write(*,8)
+       read(*,9) n
+
+       write(*,10)
+
+       do i=1,n
+          read(*,11) val
+          aux2 = aux2 + val**2
+          soma = soma + val
+       end do
+
+       aux = soma**2
+       m = aux/n
+       
+       var = (aux2 - m)/ dfloat(n)
+       
+       write(*,12) m,aux,n
+
+8      format('Digite a quantidade de valores')
+9      format(I3)
+10     format('Digite os valores para a media')
+11     format(f6.2)
+12     format('Media:',f8.2,1x,'Soma:',f8.2,2x,'N:',i2)
+
+       write(*,13) var
+13     format('Variancia: ',f8.2)
+
+       read(*,*)
+       
+       end
+
