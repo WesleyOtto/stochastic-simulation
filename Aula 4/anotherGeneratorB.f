@@ -11,8 +11,8 @@ C      rnum - numero pseudo-aleatorio
 C      ISEED - semente
 C      num - quantidades de n§ pseudo aleatorios a serem gerados
 
-       Open (1, file = 'alea.dat', status = 'unknown')
-       Open (2, file = 'plot.dat', status = 'unknown')
+       Open (1, file = 'aleaa.dat', status = 'unknown')
+       Open (2, file = 'plotB.dat', status = 'unknown')
 
 C      DADOS
        pmod = 1024.d0 ! 2**31-1

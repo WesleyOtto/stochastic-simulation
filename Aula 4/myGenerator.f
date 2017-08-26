@@ -11,11 +11,11 @@ C      rnum - numero pseudo-aleatorio
 C      ISEED - semente
 C      num - quantidades de n§ pseudo aleatorios a serem gerados
 
-       Open (1, file = 'alea.dat', status = 'unknown')
-       Open (2, file = 'plot.dat', status = 'unknown')
+       Open (1, file = 'myAlea.dat', status = 'unknown')
+       Open (2, file = 'myPlot.dat', status = 'unknown')
 
 C      DADOS
-       pmod = 1024.d0 ! 2**31-1
+       pmod = 2147483647.0D0 ! 2**31-1
        
        write(*,80)
 80     format('Valor inicial ou semente')
@@ -59,7 +59,7 @@ C      Calculos
        rnum(1) = ISEED * dmax
        write(*,93) rnum(1), ISEED
 93     format(F6.4, I15)
-103    format(F8.4, 1X, F8.4)
+103    format(F12.8, 1X, F12.8)
 
        Do i=2,num
            rnum(i) = cong(iseed)
@@ -134,9 +134,9 @@ C      Calculos
        Integer ISEED, IMOD
        
        RMOD = DFLOAT(ISEED)
-       PMOD = 1024.0D0
+       PMOD = 2147483647.0D0
        dmax = 1.0D0/pmod
-       rmod = (rmod * 129.0d0) + 1
+       rmod = (rmod * 15896.0d0) + 2
        IMOD = RMOD * dmax
        RMOD = RMOD - PMOD*IMOD
        CONG = RMOD * dmax
@@ -144,8 +144,3 @@ C      Calculos
        Return
        end
        
-       
-
-
-
-

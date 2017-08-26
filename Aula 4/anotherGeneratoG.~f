@@ -11,11 +11,11 @@ C      rnum - numero pseudo-aleatorio
 C      ISEED - semente
 C      num - quantidades de n§ pseudo aleatorios a serem gerados
 
-       Open (1, file = 'alea.dat', status = 'unknown')
-       Open (2, file = 'plot.dat', status = 'unknown')
+       Open (1, file = 'aleaF.dat', status = 'unknown')
+       Open (2, file = 'plotF.dat', status = 'unknown')
 
 C      DADOS
-       pmod = 1024.d0 ! 2**31-1
+       pmod = 2.d0**35 ! 2**31-1
        
        write(*,80)
 80     format('Valor inicial ou semente')
@@ -134,9 +134,9 @@ C      Calculos
        Integer ISEED, IMOD
        
        RMOD = DFLOAT(ISEED)
-       PMOD = 1024.0D0
+       PMOD = 2.0D0**35
        dmax = 1.0D0/pmod
-       rmod = (rmod * 129.0d0) + 1
+       rmod = (rmod * (5.0d0 + 8.0D0**11) ) + 0
        IMOD = RMOD * dmax
        RMOD = RMOD - PMOD*IMOD
        CONG = RMOD * dmax
@@ -144,8 +144,3 @@ C      Calculos
        Return
        end
        
-       
-
-
-
-

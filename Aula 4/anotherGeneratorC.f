@@ -136,7 +136,7 @@ C      Calculos
        RMOD = DFLOAT(ISEED)
        PMOD = 1024.0D0
        dmax = 1.0D0/pmod
-       rmod = (rmod * 129.0d0) + 1
+       rmod = rmod * 45.0d0
        IMOD = RMOD * dmax
        RMOD = RMOD - PMOD*IMOD
        CONG = RMOD * dmax
