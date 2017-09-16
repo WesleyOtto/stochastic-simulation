@@ -1,17 +1,17 @@
 C      gerador de numeros pseudo-aleatorios
 C      Xn = 16807*Xn-1 mod(2^32-1 - 1)
 
-       Real*8 rnum(10000), dmax, pmod
-       Integer ISEED, num
+       Real*8 rnum(10000), dmax, pmod, PI, x, y, formulaCirc
+       Integer ISEED, num, Pint
 
 C      rnum - numero pseudo-aleatorio
 C      ISEED - semente
 C      num - quantidades de n§ pseudo aleatorios a serem gerados
 
-       Open (1, file = 'alea.dat', status = 'unknown')
-
 C      DADOS
        pmod = 2147483647.d0 ! 2**31-1
+       Pint = 0
+       Ptotal = 0
        
        write(*,80)
 80     format('Valor inicial ou semente')
@@ -39,12 +39,27 @@ C      Calculos
 93     format(F6.4, I15)
 
        Do i=2,num
-           rnum(i) = cong(iseed)
-           if(num.le.200) write(*,93) rnum(i), ISEED
-           write(1,93) rnum(i), ISEED
-       end do
+           rnum(i) = cong(ISEED)
 
-       close(1)
+           if (i.gt.2) then
+              x = rnum(i)
+              y = rnum(i-1)
+              
+              formulaCirc = (x**2)+(y**2)
+              
+              if (formulaCirc.le.1) Pint = Pint + 1
+           endif
+           
+       end do
+       
+       write(*,*) Pint
+       
+95     format('PI eh igual a: ', F6.4)
+       
+       PI = 4 * (dfloat(Pint) / dfloat(num-2))
+       write(*,95) PI
+       
+       read(*,*)
 
        end
 
@@ -64,7 +79,3 @@ C      Calculos
        Return
        end
        
-       read (*,*)
-
-
-
