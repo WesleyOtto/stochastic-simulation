@@ -1,0 +1,129 @@
+       REAL*8 TEC, TS, tReal, tInicio, tFim, tFila, tSistema, TLC
+       REAL*8 tFimPassados(10000)
+       INTEGER ISEED, num, i, j
+       INTEGER numeroDeClientes, NPF, iCont
+
+       Open (1, file = 'planilha.csv', status = 'unknown')
+10     format('TEC;TS;Treal;Tinicio;Tfim;Tfila;Tsistema;NPF;TLC')
+C20     format(F6.2,F6.2,F6.2,F6.2,F6.2,F6.2,F6.2,I5,F6.2)
+
+20     format(F6.2,';',F6.2,';',F6.2,';',F6.2,';',F6.2,';',
+     *       F6.2,';',F6.2,';',I5,';',F6.2)
+
+       write(1, 10)
+
+C       Defini‡äes
+        tReal = 0.0
+        tInicio = 0.0
+        tFim = 0.0
+        tFila = 0.0
+        tSistema = 0.0
+        NPF = 0
+        TLC = 0.0
+        iCont = 0
+
+        Do i = 1, 10000
+           tFimPassados(i) = 0
+        end do
+
+C       DO WHILE (1.eq.1)
+       
+       write(*, 1)
+1      format('Valor inicial ou semente:')
+       read(*, 2) ISEED
+2      format(I5)
+
+       write(*, 3)
+3      format('Quantidade de testes a serem realizados:')
+       read(*, 2) numeroDeClientes
+
+       DO WHILE (iCont.lt.numeroDeClientes)
+
+          TEC = cong(ISEED)
+          TS = cong(ISEED)
+          
+          if (TEC.le.0.52) then
+             TEC = 1
+          else if (TEC.le.0.8) then
+             TEC = 3
+          else if (TEC.le.0.9) then
+             TEC = 5
+          else if (TEC.le.0.96) then
+             TEC = 7
+          else if (TEC.le.1.0) then
+             TEC = 9
+          end if
+
+          if (TS.le.0.5) then
+             TS = 1.25
+          else if (TS.le.0.82) then
+             TS = 3.75
+          else if (TS.le.0.9) then
+             TS = 6.25
+          else if (TS.le.0.94) then
+             TS = 8.75
+          else if (TS.le.1.0) then
+             TS = 11.25
+          end if
+
+          tReal = tReal + TEC
+          
+          tFila = 0.0
+          if (tReal.lt.tFim) then
+             tFila = tFim - tReal
+          end if
+             
+          if (tFila.gt.0) then
+             NPF = NPF + 1
+          end if
+          
+          tInicio = tReal + tFila
+          
+          TLC = tInicio - tFim
+          
+          tFim = tInicio + TS
+
+          tSistema = tFila + TS
+          
+          write(1, 20) TEC,TS,tReal,tInicio,tFim,tFila,tSistema,NPF,TLC
+          
+          Do j = 1, 10000
+             if (tFimPassados(j).gt.0.and.tFimPassados(j).lt.tReal) then
+                tFimPassados(j) = 0
+                
+                NPF = NPF - 1
+             end if
+          end do
+
+          iCont = iCont + 1
+          
+          if (tFila.gt.0) then
+             tFimPassados(iCont) = tFim
+          end if
+       
+       END DO
+
+       Close(1)
+
+C      Program waits 'cause I'm not fast enough
+       read(*,*)
+C       END DO
+
+       end
+
+       FUNCTION cong(ISEED)
+       
+       REAL*8 rmod, pmod, dmax
+       Integer ISEED, IMOD
+       
+       RMOD = DFLOAT(ISEED)
+       PMOD = 2147483647.0D0
+       dmax = 1.0d0/pmod
+       rmod = rmod * 16807.0d0
+       IMOD = RMOD * dmax
+       RMOD = RMOD - PMOD*IMOD
+       CONG = RMOD * dmax
+       ISEED = RMOD
+       Return
+       end
+
